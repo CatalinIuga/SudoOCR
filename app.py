@@ -5,7 +5,7 @@ import os
 from uuid import uuid4
 from extract import extract_data
 
-UPLOAD_FOLDER = 'flask/static/uploads'
+UPLOAD_FOLDER = 'static/uploads'
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -52,7 +52,7 @@ def extract():
         photo = os.path.join(
             app.config['UPLOAD_FOLDER'], request.args.get('p'))
         grid = extract_data(photo)
-        return render_template('extract.html', grid=grid, photo=photo.strip('flask'))
+        return render_template('extract.html', grid=grid, photo=photo)
     else:
         return "Photo not found"
 
