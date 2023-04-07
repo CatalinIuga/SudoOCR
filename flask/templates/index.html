@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soku</title>
+</head>
+
+<body class="h-screen bg-[#222831] text-[#EEEEEE] container max-w-screen-lg mx-auto px-5">
+    <header>
+        <div class="flex justify-center">
+            <h1 class="text-4xl">Soku</h1>
+        </div>
+    </header>
+    <main>
+        <div class="flex justify-center bg-[#393E46] rounded-md shadow-md">
+            <form id="files" method="post" enctype="multipart/form-data" action="/upload">
+                <div id="container">
+                    <video width="200" height="200" autoplay="true" id="video">
+                    </video>
+                </div>
+                <button class="bg-" onclick="capture()" type="button">Capture</button>
+                <br>
+                <input id="upload" type="file" id="upload" accept="image/*" capture="camera">
+                <canvas id="canvas" style="overflow:auto"></canvas>
+                <input type="hidden" name="photo_data" id="photo_data" value="">
+                <button type="submit">Submit</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </main>
+
+    <footer class="bottom-0">
+        <div class="container flex justify-center">
+            <p>© 2023 Soku</p>
+        </div>
+    </footer>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../static/main.js"></script>
+</body>
+
+</html>

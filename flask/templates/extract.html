@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        table {
+            margin: 10px;
+        }
+
+        tr:first-child td {
+            border-top-color: black;
+        }
+
+        tr:nth-child(3n) td {
+            border-bottom-color: black;
+        }
+
+        td {
+            border: 1px solid lightgrey;
+            height: 40px;
+            width: 40px;
+        }
+
+        td:first-child {
+            border-left-color: black;
+        }
+
+        td:nth-child(3n) {
+            border-right-color: black;
+        }
+
+        input {
+            padding: 0;
+            text-align: center;
+            border: 0;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+        }
+
+        input:hover {
+            background: #ffffff;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="flex flex-row gap-2 justify-evenly w-screen">
+        <table id="sudoku">
+            <tbody>
+                {% for row in grid %}
+                <tr>
+                    {% for col in row %}
+                    <td><input type="text" value="{{col}}" </td>
+                        {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <img src="{{photo}}" class="mt-1" alt="sudoku" width="45%" height="45%">
+
+    </div>
+</body>
+
+</html>
