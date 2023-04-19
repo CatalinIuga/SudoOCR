@@ -17,18 +17,11 @@
     <main>
         <div class="flex justify-center bg-[#393E46] rounded-md shadow-md">
             <form id="files" method="post" enctype="multipart/form-data" action="/upload">
-                <div id="container">
-                    <video width="200" height="200" autoplay="true" id="video">
-                    </video>
-                </div>
-                <button class="bg-" onclick="capture()" type="button">Capture</button>
-                <br>
                 <input id="upload" type="file" id="upload" accept="image/*" capture="camera">
                 <canvas id="canvas" style="overflow:auto"></canvas>
                 <input type="hidden" name="photo_data" id="photo_data" value="">
                 <button type="submit">Submit</button>
             </form>
-            <div id="result"></div>
         </div>
     </main>
 

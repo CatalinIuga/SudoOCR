@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" src="../static/style.css">
     <style>
         * {
             box-sizing: border-box;
@@ -50,25 +51,43 @@
             background: #ffffff;
         }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body>
-    <div class="flex flex-row gap-2 justify-evenly w-screen">
-        <table id="sudoku">
+    <div class="flex lg:flex-row flex-col gap-2 justify-evenly w-screen">
+        <table id="sudoku" class="w-[45%] ">
             <tbody>
-                {% for row in grid %}
+                {% for i in range(grid|length) %}
                 <tr>
-                    {% for col in row %}
-                    <td><input type="text" value="{{col}}" </td>
+                    {% for j in range(grid[i]|length) %}
+                    <td><input id="{{i|string +' '+ j|string}}" type="text" value="{{grid[i][j]}}" </td>
                         {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <img src="{{photo}}" class="mt-1" alt="sudoku" width="45%" height="45%">
+        <img src="{{photo}}" class="mt-1 w-[45%] h-[45%]" alt="sudoku">
 
     </div>
+    <script>
+        // check sudoku validity (not solved)
+        function checkSudoku() {
+            let grid = new Array[10][10];
+            for (var a = 0; a < 10; a++) {
+                for (var b = 0; b < 10; b++) {
+                    if (document.getElementById(a + ' ' + b).value !== '') {
+                        grid[a][b] = document.getElementById(a + ' ' + b).value;
+                    } else {
+                        grid[a][b] = 0;
+                    }
+                }
+            }
+
+      
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>
