@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
-from werkzeug.utils import secure_filename
 import base64
+import json
 import os
 from uuid import uuid4
+
+from flask import Flask, redirect, render_template, request, url_for
+from werkzeug.utils import secure_filename
+
 from extract import extract_data
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -28,12 +31,13 @@ def upload():
             filename = secure_filename(uuid4().hex + '.png')
             with open(os.path.join(app.config['UPLOAD_FOLDER'], filename), 'wb') as f:
                 f.write(photo)
-            print(filename)
             return {'status': 'success', 'photo': filename}
         else:
             return redirect(url_for('index'))
     else:
         return redirect(url_for('index'))
+
+# return the photo
 
 
 @app.route('/photo', methods=['GET'])
@@ -45,14 +49,20 @@ def photo():
     else:
         return "Photo not found"
 
+# extract the data from the photo and return the grid
+
 
 @app.route('/extract', methods=['GET'])
 def extract():
     if request.method == 'GET' and request.args.get('p') not in ['', None, 'undefined']:
         photo = os.path.join(
             app.config['UPLOAD_FOLDER'], request.args.get('p'))
-        grid = extract_data(photo)
-        return render_template('extract.html', grid=grid, photo=photo)
+        try:
+            grid = extract_data(photo)
+        except Exception as e:
+            print(e)
+            return render_template('extract.html', grid=None, photo=photo, error="No photo found")
+        return render_template('extract.html', grid=grid, photo=photo, error=None)
     else:
         return "Photo not found"
 

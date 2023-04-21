@@ -32,7 +32,7 @@ document.getElementById("files").addEventListener("submit", async function (e) {
       if (response.ok) {
         response.json().then((data) => {
           res = data.photo;
-          window.location.href = "/photo?p=" + res;
+          window.location.href = "/extract?p=" + res;
         });
       } else {
         throw new Error("Something went wrong ...");
