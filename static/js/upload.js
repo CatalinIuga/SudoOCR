@@ -24,8 +24,9 @@ document.getElementById("files").addEventListener("submit", async function (e) {
   var send = document.getElementById("photo_data");
   send.value = resultb64;
   var formData = new FormData(form);
-  var c = await fetch("/upload", {
+  await fetch("/upload", {
     method: "POST",
+    redirect: "follow",
     body: formData,
   })
     .then((response) => {

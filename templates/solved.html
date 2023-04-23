@@ -1,0 +1,33 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href={{ url_for('static', filename='style.css' )}}>
+</head>
+
+<body>
+    <div class="flex items-center">
+        <table id="sudoku" class="w-[45%] m-2 bg-transparent text-[#0F0F0F]">
+            <tbody>
+                {% for i in range(solved|length) %}
+                <tr>
+                    {% for j in range(solved[i]|length) %}
+                    <td class="text-center w-10 h-10">
+                        <input id="{{i|string +' '+ j|string}}" disabled
+                            class="m-0 p-0 text-center text-4xl border-0 w-full h-full bg-slate-50" type="text"
+                            value="{{solved[i][j]}}" oninput="checkSudoku()">
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src={{ url_for('static', filename='js/check.js' )}}></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+
+</html>

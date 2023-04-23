@@ -7,13 +7,16 @@ from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 
 from extract import extract_data
+from solve import solve_sudoku
 
 UPLOAD_FOLDER = 'static/uploads'
+SOLUTION_FOLDER = 'static/solved'
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['DEBUG'] = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SOLUTION_FOLDER'] = SOLUTION_FOLDER
 
 
 @app.route('/', methods=['GET'])
@@ -37,8 +40,6 @@ def upload():
     else:
         return redirect(url_for('index'))
 
-# return the photo
-
 
 @app.route('/photo', methods=['GET'])
 def photo():
@@ -48,8 +49,6 @@ def photo():
         return render_template('photo.html', photo=photo)
     else:
         return "Photo not found"
-
-# extract the data from the photo and return the grid
 
 
 @app.route('/extract', methods=['GET'])
@@ -61,10 +60,44 @@ def extract():
             grid = extract_data(photo)
         except Exception as e:
             print(e)
-            return render_template('extract.html', grid=None, photo=photo, error="No photo found")
+            return render_template('extract.html', grid=None, photo=None, error="No photo found")
         return render_template('extract.html', grid=grid, photo=photo, error=None)
     else:
         return "Photo not found"
+
+
+@app.route('/solve', methods=['POST', 'GET'])
+def solve():
+    if request.method == 'POST' and request.form['table'] not in ['', None, 'undefined']:
+        photo_id = ''
+
+        if request.form['photo'] not in ['', None, 'undefined']:
+            photo_id = request.form['photo'].split(
+                '=')[1].strip('.png')+'.json'
+        else:
+            photo_id = uuid4().hex + '.json'
+        print(photo_id)
+        solution = os.path.join(
+            app.config['SOLUTION_FOLDER'], photo_id)
+        print(solution)
+        table = json.loads(request.form['table'])
+        solved = solve_sudoku(table)
+
+        if solved:
+            with open(solution, 'w') as f:
+                final = {'solved': solved,
+                         'photo': photo_id.strip('.json')}
+                final = json.dumps(final)
+                f.write(final)
+            return {'status': 'success', 'id': photo_id}
+        else:
+            return {'status': 'error', 'message': 'No solution found'}
+    elif request.method == 'GET' and request.args.get('p') not in ['', None, 'undefined']:
+        data = os.path.join(
+            app.config['SOLUTION_FOLDER'], request.args.get('p'))
+        with open(data, 'r') as f:
+            data = json.loads(f.read())
+        return render_template('solved.html', solved=data['solved'])
 
 
 if __name__ == '__main__':
