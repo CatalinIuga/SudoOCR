@@ -1,0 +1,81 @@
+@font-face {
+  font-family: "Cubano";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.cdnfonts.com/s/62904/Cubano.woff") format("woff");
+  font-display: swap;
+}
+
+.cubano {
+  font-family: "cubano", sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Cubano", sans-serif;
+}
+
+body {
+  background-color: #252525;
+  color: #eeeeee;
+  height: 100vh;
+  width: 100vw;
+}
+
+tr:first-child td {
+  border-top: 5px solid #2a9d8f;
+}
+
+tr:nth-child(3n) td {
+  border-bottom: 5px solid #2a9d8f;
+}
+
+td:first-child {
+  border-left: 5px solid #2a9d8f;
+}
+
+td:nth-child(3n) {
+  border-right: 5px solid #2a9d8f;
+}
+
+button.solve {
+  background-color: #48bb78;
+  color: white;
+  transition: background-color 1s ease;
+}
+
+button.solve.bg-red-500 {
+  background-color: #f56565;
+}
+
+button.solve.bg-green-500 {
+  background-color: #48bb78;
+}
+
+button.solve[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.colors {
+  color: #255555;
+  color: #e0bbe4;
+  color: #1e2e3a;
+  color: #1e2e3a;
+  color: #64b5f6;
+  color: #f06292;
+  color: #ba68c8;
+  color: #9575cd;
+  color: #64b5f6;
+  color: #64b5f6;
+  color: #4db6ac;
+  color: #aed581;
+  color: #ffb74d;
+  color: #ff8a65;
+  color: #ffb703;
+  color: #f72585;
+  color: #7209b7;
+  color: #006d77;
+  color: #2a9d8f;
+}

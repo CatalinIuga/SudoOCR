@@ -1,24 +1,4 @@
-var video = document.querySelector("#video");
-if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then(function (stream) {
-      video.srcObject = stream;
-    })
-    .catch(function (err0r) {
-      console.log("Something went wrong!");
-    });
-}
 var resultb64 = "";
-function capture() {
-  var canvas = document.getElementById("canvas");
-  var video = document.getElementById("video");
-  canvas.width = 200;
-  canvas.height = 200;
-  canvas.getContext("2d").drawImage(video, 0, 0, 200, 200);
-  resultb64 = canvas.toDataURL();
-  return resultb64;
-}
 
 document.getElementById("upload").addEventListener("change", function () {
   var file = this.files[0];
@@ -44,15 +24,16 @@ document.getElementById("files").addEventListener("submit", async function (e) {
   var send = document.getElementById("photo_data");
   send.value = resultb64;
   var formData = new FormData(form);
-  var c = await fetch("/upload", {
+  await fetch("/upload", {
     method: "POST",
+    redirect: "follow",
     body: formData,
   })
     .then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           res = data.photo;
-          window.location.href = "/photo?p=" + res;
+          window.location.href = "/extract?p=" + res;
         });
       } else {
         throw new Error("Something went wrong ...");

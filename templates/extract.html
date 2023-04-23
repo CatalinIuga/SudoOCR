@@ -6,69 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        table {
-            margin: 10px;
-        }
-
-        tr:first-child td {
-            border-top-color: black;
-        }
-
-        tr:nth-child(3n) td {
-            border-bottom-color: black;
-        }
-
-        td {
-            border: 1px solid lightgrey;
-            height: 40px;
-            width: 40px;
-        }
-
-        td:first-child {
-            border-left-color: black;
-        }
-
-        td:nth-child(3n) {
-            border-right-color: black;
-        }
-
-        input {
-            padding: 0;
-            text-align: center;
-            border: 0;
-            height: 40px;
-            width: 40px;
-            text-align: center;
-        }
-
-        input:hover {
-            background: #ffffff;
-        }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href={{ url_for('static',filename='style.css' )}}>
 </head>
 
 <body>
-    <div class="flex flex-row gap-2 justify-evenly w-screen">
-        <table id="sudoku">
+    {% if error %}
+    <p>{{ error }}</p>
+    {% else %}
+    <div class="flex lg:flex-row flex-col gap-2 justify-evenly w-screen sudoku-board">
+        <table id="sudoku" class="w-[45%] m-2 bg-transparent text-[#0F0F0F]">
             <tbody>
-                {% for row in grid %}
+                {% for i in range(grid|length) %}
                 <tr>
-                    {% for col in row %}
-                    <td><input type="text" value="{{col}}" </td>
-                        {% endfor %}
+                    {% for j in range(grid[i]|length) %}
+                    <td class="text-center w-10 h-10">
+                        <input id="{{i|string +' '+ j|string}}"
+                            class="m-0 p-0 text-center text-4xl border-0 w-full h-full bg-slate-50" type="text"
+                            value="{{grid[i][j]}}" oninput="checkSudoku()">
+                    </td>
+                    {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <img src="{{photo}}" class="mt-1" alt="sudoku" width="45%" height="45%">
+        <img id="photo" src="{{photo}}" class="mt-1 w-[45%] h-[45%]" alt="sudoku">
 
     </div>
+    <form id="sender" class="flex justify-center" enctype="multipart/form-data" action="/solved">
+        <button type="submit" class="solve mt-5 rounded-md px-4 py-2" id="checked" disabled>
+            Not solvable
+        </button>
+    </form>
+    {% endif %}
+
+    <script src={{ url_for('static', filename='js/check.js' )}}></script>
+    <script src={{ url_for('static', filename='js/solve.js' )}}></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>
